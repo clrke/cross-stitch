@@ -1,6 +1,7 @@
 import turtle
 from random import randint
 from math import sqrt
+from PIL import Image
 
 class Pixel():
 	"""docstring for Pixel"""
@@ -9,7 +10,7 @@ class Pixel():
 		self.y = y
 
 def stitch(pixels, rgb, length=400):
-	turtle.color(rgb)
+	turtle.pencolor(rgb)
 
 	turtle.left(45)
 
@@ -42,13 +43,45 @@ def stitch(pixels, rgb, length=400):
 
 		turtle.forward(forward_distance)
 
-pixels = [
-	Pixel(0, 3),
-	Pixel(3, 3),
-	Pixel(3, 0),
-	Pixel(0, 0),
-]
+	turtle.left(45)
 
-stitch(pixels, (0, 0, 0), 4)
+def get_pixels_to_draw(pixels, length, rgb):
+	direction = 0
+
+	for y in reversed(range(length)):
+		row = range(length)
+		if direction == 1:
+			row.reverse()
+
+		found = False
+		for x in row:
+			if pixels[x, y] == rgb:
+				yield Pixel(x, length-y)
+				found = True
+
+		if found:
+			direction = 1 if direction == 0 else 0
+
+im = Image.open("asdf3.jpg")
+pixels = im.load()
+
+turtle.speed(0)
+turtle.pensize(5)
+turtle.colormode(255)
+turtle.hideturtle()
+
+colors_drawn = []
+
+length = im.size[0]
+
+for y in reversed(range(length)):
+	for x in range(length):
+		if pixels[x, y] not in colors_drawn:
+			colors_drawn.append(pixels[x, y])
+			stitch(
+				list(get_pixels_to_draw(pixels, length, pixels[x, y])),
+				pixels[x,y],
+				length
+			)
 
 turtle.exitonclick()
