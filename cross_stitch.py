@@ -79,10 +79,13 @@ length = im.size[0]
 
 for y in range(length):
 	for x in range(length):
-		if pixels[x, y] not in colors_drawn:
-			colors_drawn.append(pixels[x, y])
+		pixel = pixels[x, y]
+		pixel_average = sum(pixel) / len(pixel)
+
+		if pixels[x, y] not in colors_drawn and pixel_average < 230:
+			colors_drawn.append(pixel)
 			stitch(
-				list(get_pixels_to_draw(pixels, length, pixels[x, y])),
+				list(get_pixels_to_draw(pixels, length, pixel)),
 				pixels[x,y],
 				length
 			)
