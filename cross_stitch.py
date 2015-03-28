@@ -79,7 +79,7 @@ im = Image.open(filename)
 pixels = im.load()
 
 turtle.speed(0)
-turtle.pensize(2)
+turtle.pensize(3)
 turtle.colormode(255)
 turtle.hideturtle()
 
