@@ -2,6 +2,9 @@ import turtle
 from random import randint
 from math import sqrt
 from PIL import Image
+import sys
+
+filename = sys.argv[1]
 
 class Pixel():
 	"""docstring for Pixel"""
@@ -62,11 +65,11 @@ def get_pixels_to_draw(pixels, length, rgb):
 		if found:
 			direction = 1 if direction == 0 else 0
 
-im = Image.open("asdf3.jpg")
+im = Image.open(filename)
 pixels = im.load()
 
 turtle.speed(0)
-turtle.pensize(5)
+turtle.pensize(3)
 turtle.colormode(255)
 turtle.hideturtle()
 
@@ -74,7 +77,7 @@ colors_drawn = []
 
 length = im.size[0]
 
-for y in reversed(range(length)):
+for y in range(length):
 	for x in range(length):
 		if pixels[x, y] not in colors_drawn:
 			colors_drawn.append(pixels[x, y])
