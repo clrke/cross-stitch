@@ -19,38 +19,40 @@ class Pixel:
         self.rgb = rgb
 
 
+def stitch_pixel(pixel, xkey, ykey, forward_distance):
+    turtle.pencolor(pixel.rgb)
+
+    turtle.penup()
+    turtle.goto(xkey(pixel), ykey(pixel))
+    turtle.pendown()
+
+    turtle.forward(forward_distance)
+
+
 def stitch(pixels, length=FRAME_SIZE):
     turtle.left(45)
 
     half_frame = FRAME_SIZE / 2
 
-    forward_distance = sqrt(
-        (FRAME_SIZE / length) ** 2 +
-        (FRAME_SIZE / length) ** 2)
+    pixel_length = FRAME_SIZE / length
+    forward_distance = sqrt(pixel_length ** 2 * 2)
+
+    def get_start_x(p):
+        return p.x * pixel_length - half_frame
+
+    def get_start_y(p):
+        return p.y * pixel_length - half_frame
 
     for pixel in pixels:
-        turtle.penup()
-        turtle.goto(
-            pixel.x * FRAME_SIZE / length - half_frame,
-            pixel.y * FRAME_SIZE / length - half_frame
-        )
-        turtle.pendown()
-
-        turtle.pencolor(pixel.rgb)
-        turtle.forward(forward_distance)
+        stitch_pixel(pixel, get_start_x, get_start_y, forward_distance)
 
     turtle.right(90)
 
-    for pixel in reversed(pixels):
-        turtle.penup()
-        turtle.goto(
-            pixel.x * FRAME_SIZE / length - half_frame,
-            (pixel.y + 1) * FRAME_SIZE / length - half_frame
-        )
-        turtle.pendown()
+    def get_start_y(p):
+        return (p.y + 1) * pixel_length - half_frame
 
-        turtle.pencolor(pixel.rgb)
-        turtle.forward(forward_distance)
+    for pixel in reversed(pixels):
+        stitch_pixel(pixel, get_start_x, get_start_y, forward_distance)
 
     turtle.left(45)
 
@@ -129,6 +131,7 @@ def main():
     filename = sys.argv[1]
 
     draw(filename)
+
 
 if __name__ == '__main__':
     main()
