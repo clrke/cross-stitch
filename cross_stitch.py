@@ -10,12 +10,14 @@ FRAME_SIZE = 700
 PEN_SIZE = 4
 PIXEL_THRESHOLD = 230
 
+
 class Pixel():
 	"""docstring for Pixel"""
 	def __init__(self, x, y, rgb):
 		self.x = x
 		self.y = y
 		self.rgb = rgb
+
 
 def stitch(pixels, length=FRAME_SIZE):
 
@@ -53,11 +55,17 @@ def stitch(pixels, length=FRAME_SIZE):
 
 	turtle.left(45)
 
+
+def get_pixel_average(pixel):
+    return sum(pixel) / len(pixel)
+
+
 def get_pixel_distance(pixel1, pixel2):
-	pixel_average1 = sum(pixel1) / len(pixel1)
-	pixel_average2 = sum(pixel2) / len(pixel2)
+	pixel_average1 = get_pixel_average(pixel1)
+	pixel_average2 = get_pixel_average(pixel2)
 
 	return abs(pixel_average1 - pixel_average2)
+
 
 def get_pixels_to_draw(pixels, length, rgb):
 	direction = 0
@@ -78,6 +86,7 @@ def get_pixels_to_draw(pixels, length, rgb):
 		if found:
 			direction = 1 if direction == 0 else 0
 
+
 im = Image.open(filename)
 pixels = im.load()
 
@@ -93,7 +102,7 @@ length = im.size[1]
 for y in range(length):
 	for x in range(length):
 		pixel = pixels[x, y]
-		pixel_average = sum(pixel) / len(pixel)
+		pixel_average = get_pixel_average(pixel)
 
 		if pixels[x, y] not in colors_drawn and pixel_average < PIXEL_THRESHOLD:
 			pixels_to_draw = list(get_pixels_to_draw(pixels, length, pixel))
@@ -102,10 +111,7 @@ for y in range(length):
 				if pixel_to_draw.rgb not in colors_drawn:
 					colors_drawn.append(pixel_to_draw.rgb)
 
-			stitch(
-				pixels_to_draw,
-				length
-			)
+			stitch(pixels_to_draw, length)
 
 turtle.exitonclick()
 
