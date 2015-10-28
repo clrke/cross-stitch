@@ -13,8 +13,6 @@ WEST = False
 
 
 class Pixel:
-    """docstring for Pixel"""
-
     def __init__(self, x, y, rgb):
         self.x = x
         self.y = y
