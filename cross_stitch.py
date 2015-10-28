@@ -107,16 +107,17 @@ def get_pixels_to_draw(pixels, length, rgb):
         if direction == WEST:
             row.reverse()
 
-        found = False
+        row_has_pixel_to_draw = False
+
         for x in row:
             pixel = pixels[x, y]
             pixel_average = sum(pixel) / len(pixel)
             if get_pixel_difference(pixel, rgb) < PIXEL_DIFFERENCE_THRESHOLD \
                     and pixel_average < PIXEL_DRAW_THRESHOLD:
                 yield Pixel(x, length - y, pixel)
-                found = True
+                row_has_pixel_to_draw = True
 
-        if found:
+        if row_has_pixel_to_draw:
             direction = not direction
 
 
