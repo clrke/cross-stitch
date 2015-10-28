@@ -73,7 +73,7 @@ def get_pixels_to_draw(pixels, length, rgb):
 
     for y in range(length):
         row = range(length)
-        if direction == WEST:
+        if direction is WEST:
             row.reverse()
 
         row_has_pixel_to_draw = False
