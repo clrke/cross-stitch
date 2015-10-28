@@ -79,7 +79,7 @@ def get_pixels_to_draw(pixels, length, rgb):
         row_has_pixel_to_draw = False
 
         for x in row:
-            pixel = pixels[x, y]
+            pixel = pixels[x, y][:3]
             pixel_average = sum(pixel) / len(pixel)
             if get_pixel_difference(pixel, rgb) < PIXEL_DIFFERENCE_THRESHOLD \
                     and pixel_average < PIXEL_DRAW_THRESHOLD:
@@ -105,10 +105,11 @@ def draw(filename):
 
     for y in range(length):
         for x in range(length):
-            pixel = pixels[x, y]
+            pixel = pixels[x, y][:3]
+
             pixel_average = get_pixel_average(pixel)
 
-            if pixels[x, y] not in colors_drawn \
+            if pixel not in colors_drawn \
                     and pixel_average < PIXEL_DRAW_THRESHOLD:
                 pixels_to_draw = list(get_pixels_to_draw(pixels, length, pixel))
 
