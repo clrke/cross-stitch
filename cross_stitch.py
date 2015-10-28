@@ -1,5 +1,4 @@
 import turtle
-from random import randint
 from math import sqrt
 from PIL import Image
 import sys
