@@ -11,13 +11,15 @@ PEN_SIZE = 4
 PIXEL_DIFFERENCE_THRESHOLD = 40
 PIXEL_DRAW_THRESHOLD = 230
 
+EAST = True
+WEST = False
+
 class Pixel():
 	"""docstring for Pixel"""
 	def __init__(self, x, y, rgb):
 		self.x = x
 		self.y = y
 		self.rgb = rgb
-
 
 def stitch(pixels, length=FRAME_SIZE):
 
@@ -68,11 +70,11 @@ def get_pixel_difference(pixel1, pixel2):
 
 
 def get_pixels_to_draw(pixels, length, rgb):
-	direction = 0
+	direction = EAST
 
 	for y in range(length):
 		row = range(length)
-		if direction == 1:
+		if direction == WEST:
 			row.reverse()
 
 		found = False
@@ -86,7 +88,7 @@ def get_pixels_to_draw(pixels, length, rgb):
 				found = True
 
 		if found:
-			direction = 1 if direction == 0 else 0
+			direction = not direction
 
 
 im = Image.open(filename)
