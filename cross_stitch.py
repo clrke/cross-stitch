@@ -121,6 +121,12 @@ def get_pixels_to_draw(pixels, length, rgb):
 
 
 def main():
+    if len(sys.argv) < 2:
+        print "Usage:   python cross_stitch.py <image filename>"
+        print "Example: python cross_stitch.py pythonph.resized.png"
+
+        return
+
     filename = sys.argv[1]
 
     draw(filename)
