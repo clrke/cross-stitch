@@ -91,8 +91,8 @@ def get_pixels_to_draw(pixels, length, rgb):
 
 
 def draw(filename):
-    im = Image.open(filename)
-    pixels = im.load()
+    image = Image.open(filename)
+    pixels = image.load()
 
     turtle.speed(0)
     turtle.pensize(PEN_SIZE)
@@ -101,7 +101,7 @@ def draw(filename):
 
     colors_drawn = []
 
-    length = im.size[1]
+    length = image.size[1]
 
     for y in range(length):
         for x in range(length):
