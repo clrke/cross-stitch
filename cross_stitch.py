@@ -12,37 +12,6 @@ EAST = True
 WEST = False
 
 
-def draw(filename):
-    im = Image.open(filename)
-    pixels = im.load()
-
-    turtle.speed(0)
-    turtle.pensize(PEN_SIZE)
-    turtle.colormode(255)
-    turtle.hideturtle()
-
-    colors_drawn = []
-
-    length = im.size[1]
-
-    for y in range(length):
-        for x in range(length):
-            pixel = pixels[x, y]
-            pixel_average = get_pixel_average(pixel)
-
-            if pixels[x, y] not in colors_drawn \
-                    and pixel_average < PIXEL_DRAW_THRESHOLD:
-                pixels_to_draw = list(get_pixels_to_draw(pixels, length, pixel))
-
-                for pixel_to_draw in pixels_to_draw:
-                    if pixel_to_draw.rgb not in colors_drawn:
-                        colors_drawn.append(pixel_to_draw.rgb)
-
-                stitch(pixels_to_draw, length)
-
-    turtle.exitonclick()
-
-
 class Pixel:
     """docstring for Pixel"""
 
@@ -119,6 +88,37 @@ def get_pixels_to_draw(pixels, length, rgb):
 
         if row_has_pixel_to_draw:
             direction = not direction
+
+
+def draw(filename):
+    im = Image.open(filename)
+    pixels = im.load()
+
+    turtle.speed(0)
+    turtle.pensize(PEN_SIZE)
+    turtle.colormode(255)
+    turtle.hideturtle()
+
+    colors_drawn = []
+
+    length = im.size[1]
+
+    for y in range(length):
+        for x in range(length):
+            pixel = pixels[x, y]
+            pixel_average = get_pixel_average(pixel)
+
+            if pixels[x, y] not in colors_drawn \
+                    and pixel_average < PIXEL_DRAW_THRESHOLD:
+                pixels_to_draw = list(get_pixels_to_draw(pixels, length, pixel))
+
+                for pixel_to_draw in pixels_to_draw:
+                    if pixel_to_draw.rgb not in colors_drawn:
+                        colors_drawn.append(pixel_to_draw.rgb)
+
+                stitch(pixels_to_draw, length)
+
+    turtle.exitonclick()
 
 
 def main():
