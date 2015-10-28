@@ -8,8 +8,8 @@ filename = sys.argv[1]
 
 FRAME_SIZE = 700
 PEN_SIZE = 4
-PIXEL_THRESHOLD = 230
-
+PIXEL_DIFFERENCE_THRESHOLD = 40
+PIXEL_DRAW_THRESHOLD = 230
 
 class Pixel():
 	"""docstring for Pixel"""
@@ -60,7 +60,7 @@ def get_pixel_average(pixel):
     return sum(pixel) / len(pixel)
 
 
-def get_pixel_distance(pixel1, pixel2):
+def get_pixel_difference(pixel1, pixel2):
 	pixel_average1 = get_pixel_average(pixel1)
 	pixel_average2 = get_pixel_average(pixel2)
 
@@ -79,7 +79,9 @@ def get_pixels_to_draw(pixels, length, rgb):
 		for x in row:
 			pixel = pixels[x, y]
 			pixel_average = sum(pixel) / len(pixel)
-			if get_pixel_distance(pixel, rgb) < 40 and pixel_average < 230:
+			if get_pixel_difference(pixel, rgb) < PIXEL_DIFFERENCE_THRESHOLD \
+                                and pixel_average < PIXEL_DRAW_THRESHOLD:
+
 				yield Pixel(x, length-y, pixel)
 				found = True
 
@@ -104,7 +106,8 @@ for y in range(length):
 		pixel = pixels[x, y]
 		pixel_average = get_pixel_average(pixel)
 
-		if pixels[x, y] not in colors_drawn and pixel_average < PIXEL_THRESHOLD:
+		if pixels[x, y] not in colors_drawn \
+                    and pixel_average < PIXEL_DRAW_THRESHOLD:
 			pixels_to_draw = list(get_pixels_to_draw(pixels, length, pixel))
 
 			for pixel_to_draw in pixels_to_draw:
