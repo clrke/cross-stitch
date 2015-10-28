@@ -6,6 +6,10 @@ import sys
 
 filename = sys.argv[1]
 
+FRAME_SIZE = 700
+PEN_SIZE = 4
+PIXEL_THRESHOLD = 230
+
 class Pixel():
 	"""docstring for Pixel"""
 	def __init__(self, x, y, rgb):
@@ -13,22 +17,21 @@ class Pixel():
 		self.y = y
 		self.rgb = rgb
 
-def stitch(pixels, length=400):
+def stitch(pixels, length=FRAME_SIZE):
 
 	turtle.left(45)
 
-	half_frame = 200
+	half_frame = FRAME_SIZE / 2
 
 	forward_distance = sqrt(
-		(400/length) ** 2 +
-		(400/length) ** 2
-	)
+		(FRAME_SIZE/length) ** 2 +
+		(FRAME_SIZE/length) ** 2)
 
 	for pixel in pixels:
 		turtle.penup()
 		turtle.goto(
-			pixel.x*400/length-half_frame,
-			pixel.y*400/length-half_frame
+			pixel.x*FRAME_SIZE/length-half_frame,
+			pixel.y*FRAME_SIZE/length-half_frame
 		)
 		turtle.pendown()
 
@@ -40,8 +43,8 @@ def stitch(pixels, length=400):
 	for pixel in reversed(pixels):
 		turtle.penup()
 		turtle.goto(
-			pixel.x*400/length-half_frame,
-			(pixel.y+1)*400/length-half_frame
+			pixel.x*FRAME_SIZE/length-half_frame,
+			(pixel.y+1)*FRAME_SIZE/length-half_frame
 		)
 		turtle.pendown()
 
@@ -79,20 +82,20 @@ im = Image.open(filename)
 pixels = im.load()
 
 turtle.speed(0)
-turtle.pensize(3)
+turtle.pensize(PEN_SIZE)
 turtle.colormode(255)
 turtle.hideturtle()
 
 colors_drawn = []
 
-length = im.size[0]
+length = im.size[1]
 
 for y in range(length):
 	for x in range(length):
 		pixel = pixels[x, y]
 		pixel_average = sum(pixel) / len(pixel)
 
-		if pixels[x, y] not in colors_drawn and pixel_average < 230:
+		if pixels[x, y] not in colors_drawn and pixel_average < PIXEL_THRESHOLD:
 			pixels_to_draw = list(get_pixels_to_draw(pixels, length, pixel))
 
 			for pixel_to_draw in pixels_to_draw:
