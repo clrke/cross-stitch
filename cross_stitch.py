@@ -5,7 +5,7 @@ import sys
 
 FRAME_SIZE = 700
 PEN_SIZE = 4
-PIXEL_DIFFERENCE_THRESHOLD = 40
+PIXEL_DIFFERENCE_THRESHOLD = 60
 PIXEL_DRAW_THRESHOLD = 230
 
 EAST = True
@@ -62,10 +62,11 @@ def get_pixel_average(pixel):
 
 
 def get_pixel_difference(pixel1, pixel2):
-    pixel_average1 = get_pixel_average(pixel1)
-    pixel_average2 = get_pixel_average(pixel2)
+    pixels_values = zip(pixel1, pixel2)
 
-    return abs(pixel_average1 - pixel_average2)
+    sum_of_squares = sum([(pixel_values[0] - pixel_values[1]) ** 2 for pixel_values in pixels_values])
+
+    return sqrt(sum_of_squares)
 
 
 def get_pixels_to_draw(pixels, length, rgb):
