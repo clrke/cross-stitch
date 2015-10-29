@@ -81,9 +81,9 @@ def get_pixels_to_draw(pixels, length, rgb, colors_drawn):
 
         for x in row:
             pixel = pixels[x, y][:3]
-            pixel_average = sum(pixel) / len(pixel)
+
             if get_pixel_difference(pixel, rgb) < PIXEL_DIFFERENCE_THRESHOLD \
-                    and pixel_average < PIXEL_DRAW_THRESHOLD \
+                    and get_pixel_average(pixel) < PIXEL_DRAW_THRESHOLD \
                     and pixel not in colors_drawn:
                 yield Pixel(x, length - y, pixel)
                 row_has_pixel_to_draw = True
