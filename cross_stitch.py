@@ -64,7 +64,7 @@ def get_pixel_average(pixel):
 def get_pixel_difference(pixel1, pixel2):
     pixels_values = zip(pixel1, pixel2)
 
-    sum_of_squares = sum([(pixel_values[0] - pixel_values[1]) ** 2 for pixel_values in pixels_values])
+    sum_of_squares = sum([(values[0] - values[1]) ** 2 for values in pixels_values])
 
     return sqrt(sum_of_squares)
 
@@ -84,7 +84,7 @@ def get_pixels_to_draw(pixels, length, rgb, colors_drawn):
             pixel_average = sum(pixel) / len(pixel)
             if get_pixel_difference(pixel, rgb) < PIXEL_DIFFERENCE_THRESHOLD \
                     and pixel_average < PIXEL_DRAW_THRESHOLD \
-                    and rgb not in colors_drawn:
+                    and pixel not in colors_drawn:
                 yield Pixel(x, length - y, pixel)
                 row_has_pixel_to_draw = True
 
@@ -113,7 +113,8 @@ def draw(filename):
 
             if pixel not in colors_drawn \
                     and pixel_average < PIXEL_DRAW_THRESHOLD:
-                pixels_to_draw = list(get_pixels_to_draw(pixels, length, pixel, colors_drawn))
+                pixels_to_draw = list(
+                        get_pixels_to_draw(pixels, length, pixel, colors_drawn))
 
                 for pixel_to_draw in pixels_to_draw:
                     if pixel_to_draw.rgb not in colors_drawn:
